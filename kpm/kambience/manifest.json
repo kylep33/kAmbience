@@ -1,0 +1,10 @@
+{
+  "manifest_version": 2,
+  "id": "kambience",
+  "name": "kambience",
+  "author": "kylep33",
+  "description": "Ambient sound that follows the story in KOReader: rain on the roof, the fire in the inn, the sea against the hull. Plays over Bluetooth through KinAMP, which you install separately. Books are tagged with the kambience tool on your computer.",
+  "version": [1, 0, 0],
+  "dependencies": [{"id": "kambience-sounds-1", "min": [1, 0, 0], "max": [2, 0, 0]}, {"id": "kambience-sounds-2", "min": [1, 0, 0], "max": [2, 0, 0]}, {"id": "kambience-sounds-3", "min": [1, 0, 0], "max": [2, 0, 0]}],
+  "supported_platforms": null
+}

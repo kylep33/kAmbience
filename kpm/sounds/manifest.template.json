@@ -1,0 +1,10 @@
+{
+  "manifest_version": 2,
+  "id": "kambience-sounds-N",
+  "name": "kambience sounds (part N of 3)",
+  "author": "kylep33",
+  "description": "Sound files for kambience: CATS. CC0 and CC BY recordings from Freesound, credited in CREDITS.md. Installed automatically with kambience.",
+  "version": [1, 0, 0],
+  "dependencies": [],
+  "supported_platforms": null
+}

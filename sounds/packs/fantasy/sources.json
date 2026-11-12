@@ -1,0 +1,14 @@
+{
+ "_comment": "Fantasy pack. Same format as ../../sources.json; mixes may layer core labels.",
+ "tavern/quiet-fire": {"mix": ["tavern/quiet", "fire/hearth"]},
+ "road/wagon": [762867],
+ "road/horseback": [505272, 437103],
+ "camp/travelers-night": {"mix": ["fire/campfire", "field/night"]},
+ "village/farm": [502867, 389201],
+ "village/festival": {"mix": ["city/market", "party/crowd"]},
+ "village/stable": [392637, 322443],
+ "forge/smithy": [137836],
+ "indoor/workshop": [564163, 59961],
+ "bells/town": [737045, 371267, 201171, 582282],
+ "city/rooftops-night": {"mix": ["wind/gentle", "night/town"]}
+}

@@ -1,0 +1,5 @@
+sounds
+web/data
+**/__pycache__
+**/test_*.py
+.git

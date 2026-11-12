@@ -1,0 +1,22 @@
+services:
+  kambience:
+    build: .
+    image: kambience:latest
+    container_name: kambience
+    restart: unless-stopped
+    # host network: serves on :8095 and can reach an Ollama / LM Studio running on mattbot's 127.0.0.1
+    network_mode: host
+    user: "1000:1000" # same owner as the Calibre library (calibre-web runs with PUID/PGID 1000)
+    volumes:
+      - ./web/data:/data # settings (API key, mode 600), job history, uploads, backups of library books
+      - ./sounds:/sounds:ro # only to see which sounds exist
+      - /srv/data/books/library:/library # rw: books get sound written in place (after a backup)
+      - /srv/data/books/ingest:/ingest # rw: "add to Calibre" drops uploads here for Calibre-Web-Automated
+    read_only: true
+    tmpfs: [/tmp]
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+    mem_limit: 512m
+    logging:
+      driver: json-file
+      options: { max-size: "1m", max-file: "2" }

@@ -1,0 +1,96 @@
+# kambience sound catalog. One label per line: "category/variant  description".
+# The description is shown to the AI. Put the matching file at sounds/<label>.mp3
+# (e.g. sounds/rain/heavy.mp3). Labels without a file are never used: the kambience
+# only offers the AI sounds that exist, so a pack can start small.
+# Layers (rain + fire) must be pre-mixed into one file: the player plays one sound at a time.
+
+silence             No ambience: abstract, reflective or unclear setting
+
+rain/light          Light rain or drizzle outdoors
+rain/heavy          Heavy downpour outdoors
+rain/indoor         Rain heard from inside a building, on windows and roof
+rain/indoor-fire    Inside by a fireplace while rain falls outside
+rain/on-tent        Rain drumming on a tent or tarp
+rain/in-car         Rain on a car roof and windshield
+rain/thunderstorm   Thunderstorm with rolling thunder and rain
+rain/forest         Rain falling through forest leaves
+
+wind/gentle         Soft breeze in open country
+wind/howling        Strong howling wind, storm without rain
+wind/blizzard       Snowstorm, freezing gale
+wind/desert         Hot dry wind over sand
+wind/mountain       High mountain wind, exposed peaks
+
+snow/quiet          Still snowy landscape, muffled quiet, crunching steps
+snow/indoor-fire    Cosy inside by a fire on a winter night
+
+fire/campfire       Crackling campfire outdoors
+fire/hearth         Fireplace or hearth indoors
+fire/blaze          Large fire, burning building or forest fire
+
+forest/day          Daytime woodland with birdsong
+forest/night        Night forest with crickets and owls
+forest/jungle       Dense tropical jungle, insects, exotic birds
+forest/swamp        Marsh or swamp, frogs, buzzing insects
+
+field/meadow        Open grassland or farmland, summer insects
+field/night         Countryside at night, crickets
+
+water/river         Flowing river or stream
+water/waterfall     Waterfall close by
+water/lake          Calm lake shore, gentle lapping water
+water/underwater    Underwater, muffled bubbles
+
+sea/calm            Calm sea, gentle waves on a beach
+sea/rough           Rough sea, crashing waves on rocks
+sea/storm           Storm at sea, ship in violent weather
+sea/ship-deck       On a sailing ship's deck, creaking wood, wind in sails
+sea/below-deck      Below deck in a wooden ship, creaking hull
+sea/harbor          Busy harbour or docks, gulls, ropes, water
+
+cave/drips          Cave or cavern, echoing water drips
+cave/deep           Deep underground, low rumble, eerie
+
+city/medieval       Medieval town street, market, carts, voices
+city/modern-day     Modern city street by day, traffic, crowds
+city/modern-night   Modern city at night, distant traffic, sirens
+city/alley          Quiet back alley, distant city sounds
+city/market         Busy marketplace with merchants calling
+
+indoor/quiet-room   Quiet room, clock ticking
+indoor/house-night  House at night, creaks, silence
+indoor/library      Library, pages turning, hushed
+indoor/office       Office, keyboards, phones, air conditioning
+indoor/hospital     Hospital, beeping monitors, quiet corridor
+indoor/classroom    School classroom or lecture hall
+indoor/kitchen      Kitchen, cooking, pots and pans
+indoor/church       Large stone church or cathedral, echoing
+indoor/dungeon      Dungeon or prison cell, chains, dripping
+indoor/castle-hall  Great hall of a castle, large echoing space
+indoor/train        Inside a moving train
+indoor/car          Inside a moving car
+indoor/airplane     Airplane cabin in flight
+
+tavern/busy         Busy tavern or inn, chatter, mugs, music
+tavern/quiet        Quiet inn or pub, few patrons
+cafe/busy           Coffee shop, chatter, espresso machine
+party/crowd         Party or ball, crowd, music
+
+battle/swords       Melee battle, clashing swords, shouting
+battle/guns         Modern gunfire battle
+battle/distant      Battle heard from a distance
+battle/aftermath    After a battle, smoke, groans, wind
+
+scifi/ship-hum      Inside a spaceship, engine hum
+scifi/bridge        Spaceship bridge, consoles beeping
+scifi/space-station Space station corridors, air recyclers
+scifi/alien-world   Strange alien planet atmosphere
+
+horror/creepy       Eerie unsettling ambience
+horror/heartbeat    Tense suspense, slow heartbeat
+
+magic/mystic        Magical, shimmering, otherworldly
+magic/ritual        Ritual or spell chanting, low drones
+
+night/town          Quiet town at night, distant dog, wind
+night/graveyard     Graveyard at night, wind, owl

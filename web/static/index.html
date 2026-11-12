@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>kambience</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect width='16' height='16' fill='%23f3ede1'/%3E%3Ctext x='8' y='12.6' font-family='Georgia,serif' font-size='13' font-style='italic' fill='%238a3324' text-anchor='middle'%3Ek%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+<header class="title">
+  <div class="topline">
+    <p class="kicker">kambience · mattbot</p>
+    <button type="button" id="open-settings" class="link quiet">Settings</button>
+  </div>
+  <h1>kambience</h1>
+  <p class="sub">Quiet sound for the places in your books: the rain on the roof, the fire in the inn,
+    the sea against the hull. The sounds are written into the book itself, and play in KOReader when you turn them on.</p>
+</header>
+
+<main>
+  <section id="book" aria-labelledby="h-book">
+    <h2 id="h-book"><span class="num">I.</span> Choose a book</h2>
+    <div class="tabs" role="tablist">
+      <button role="tab" id="t-lib" aria-selected="true" aria-controls="p-lib">From the library</button>
+      <button role="tab" id="t-up" aria-selected="false" aria-controls="p-up">Upload an EPUB</button>
+    </div>
+
+    <div id="p-lib" role="tabpanel" aria-labelledby="t-lib">
+      <label class="search"><span class="sc">Find</span>
+        <input id="q" type="search" placeholder="title or author" autocomplete="off"></label>
+      <ol id="books" class="books" aria-live="polite"></ol>
+    </div>
+
+    <div id="p-up" role="tabpanel" aria-labelledby="t-up" hidden>
+      <label class="drop" id="drop">
+        <input id="file" type="file" accept=".epub,application/epub+zip">
+        <span class="drop-main">Drop an EPUB here</span>
+        <span class="drop-alt">or <u>choose one from this device</u></span>
+      </label>
+      <p class="aside">Once it's done you can download the copy with sound, or add it to the Calibre library.</p>
+    </div>
+  </section>
+
+  <section id="work" aria-labelledby="h-work">
+    <h2 id="h-work"><span class="num">II.</span> In progress</h2>
+    <ol id="jobs" class="jobs" aria-live="polite"></ol>
+    <p id="nojobs" class="aside">Nothing yet. Choose a book above and it will appear here.</p>
+  </section>
+</main>
+
+<dialog id="settings-dialog" aria-labelledby="h-voice">
+  <div class="sheet">
+    <div class="sheet-head">
+      <h2 id="h-voice">Settings</h2>
+      <button type="button" id="close-settings" class="link quiet" aria-label="Close settings">Close</button>
+    </div>
+    <p class="aside">The AI that reads each book and decides where sounds belong. Any key stays on mattbot.</p>
+    <form id="settings" autocomplete="off">
+      <label><span class="sc">Service</span><select id="provider" autofocus></select></label>
+      <label id="row-url"><span class="sc">Address</span><input id="base_url" type="url" placeholder="http://127.0.0.1:11434/v1"></label>
+      <label><span class="sc">Model</span><input id="model" type="text" placeholder="model name" spellcheck="false"></label>
+      <label id="row-key"><span class="sc">Key</span><input id="api_key" type="password" placeholder="paste your API key" spellcheck="false"></label>
+      <label><span class="sc">Read</span>
+        <span class="pct">the first <input id="limit_pct" type="number" min="1" max="100" step="1" inputmode="numeric"> % of each book</span></label>
+      <p class="aside small">Lower it to try a book out quickly, or to do a long book in parts: the rest stays silent,
+        and pressing <i>continue</i> on that book later carries on from where it stopped.</p>
+      <div class="actions">
+        <button type="submit" class="btn">Save</button>
+        <button type="button" id="test" class="btn ghost">Try it</button>
+        <span id="status" class="status" role="status"></span>
+      </div>
+    </form>
+  </div>
+</dialog>
+
+<footer>
+  <p>❦</p>
+  <p>Set in Literata. Sounds from Freesound contributors, credited in the sound pack.</p>
+</footer>
+<script src="/static/app.js"></script>
+</body>
+</html>

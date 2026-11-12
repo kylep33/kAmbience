@@ -1,0 +1,15 @@
+# Fantasy pack: settings common in fantasy and historical novels (inns, roads, forges, villages).
+# Download with: python3 fetch_sounds.py --pack fantasy
+# Files land beside the core sounds (sounds/<label>.mp3), so the plugin needs nothing extra.
+
+tavern/quiet-fire     Quiet inn common room at night: a fire burning in the hearth, very few patrons
+road/wagon            Travelling by horse-drawn wagon or cart on a dirt road
+road/horseback        Riding a horse along a country road or track
+camp/travelers-night  Travellers' camp at night beside a road: campfire, crickets, open fields
+village/farm          Farming village by day: chickens, livestock, rural quiet
+village/festival      Village festival or fair outdoors: lively crowd, celebration
+village/stable        Inside a stable: horses shifting and snorting, flies, straw
+forge/smithy          Blacksmith's forge: hammer on anvil, fire, quenching
+indoor/workshop       Busy craft workshop: hand tools, tinkering, wood and metal work
+bells/town            Church or temple bells ringing over a town
+city/rooftops-night   On city rooftops at night: wind, the town sleeping below
