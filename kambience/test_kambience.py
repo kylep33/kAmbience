@@ -105,7 +105,11 @@ assert im.embedded(out) == data and im.embedded(epub) is None
 with zipfile.ZipFile(out) as z:
     assert z.infolist()[0].filename == 'META-INF/container.xml'  # make_epub has no mimetype; order kept
     assert [i.filename for i in z.infolist()].count(im.EMBED_PATH) == 1
-assert im.read_epub(out)[0] == 'Test Book'
+assert im.read_epub(out)[0] == 'Test Book' + im.TITLE_SUFFIX
+opf = '<metadata><dc:title id="t">Book</dc:title><dc:subject>x</dc:subject></metadata>'
+once = im.mark_opf(opf)
+assert once == '<metadata><dc:title id="t">Book [kambience]</dc:title><dc:subject>x</dc:subject><dc:subject>kambience</dc:subject></metadata>'
+assert im.mark_opf(once) == once  # idempotent
 data2 = dict(data, scenes=[])
 im.embed(out, out, data2)  # in place
 assert im.embedded(out) == data2 and not os.path.exists(out + '.kambience.tmp')

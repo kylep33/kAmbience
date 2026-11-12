@@ -269,6 +269,23 @@ def load_config(path):
 
 EMBED_PATH = 'META-INF/kambience.json'  # inside the EPUB zip; readers ignore unknown META-INF files
 OLD_EMBED_PATHS = ('META-INF/kimmersive.json',)  # books tagged before the rename
+MARK = 'kambience'  # tag (dc:subject / Calibre tag) on books with sound
+TITLE_SUFFIX = ' [kambience]'
+
+
+def mark_opf(opf):
+    """Adds TITLE_SUFFIX to the first title and a MARK subject. Text edits, not ElementTree, which
+    would rewrite the namespace prefixes. Idempotent."""
+    m = re.search(r'<((?:[\w-]+:)?)title\b[^>]*>(.*?)</\1title>', opf, re.S)
+    if not m:
+        return opf
+    dc = m.group(1)
+    if not m.group(2).endswith(TITLE_SUFFIX):
+        opf = opf[:m.end(2)] + TITLE_SUFFIX + opf[m.end(2):]
+    subject = f'<{dc}subject>{MARK}</{dc}subject>'
+    if subject not in opf:
+        opf = re.sub(r'(</(?:[\w-]+:)?metadata>)', lambda e: subject + e.group(1), opf, count=1)
+    return opf
 
 
 def run(epub, labels, cfg, log=print, resume=None, on_batch=None, percent=100):
@@ -301,9 +318,14 @@ def embed(src, dst, data):
     the copy goes to a temp file first and is moved over dst only once complete."""
     tmp = dst + '.kambience.tmp'
     with zipfile.ZipFile(src) as zin, zipfile.ZipFile(tmp, 'w') as zout:
+        opf_path = ET.fromstring(zin.read('META-INF/container.xml')).find('.//{*}rootfile').get('full-path')
         for info in zin.infolist():  # keeps order, so 'mimetype' stays first and uncompressed
-            if info.filename != EMBED_PATH and info.filename not in OLD_EMBED_PATHS:
-                zout.writestr(info, zin.read(info.filename))
+            if info.filename in (EMBED_PATH, *OLD_EMBED_PATHS):
+                continue
+            body = zin.read(info.filename)
+            if info.filename == opf_path:
+                body = mark_opf(body.decode('utf-8')).encode('utf-8')
+            zout.writestr(info, body)
         zout.writestr(EMBED_PATH, json.dumps(data, indent=1), compress_type=zipfile.ZIP_DEFLATED)
     with zipfile.ZipFile(tmp) as check:  # never replace a book with a broken file
         if check.testzip() is not None or EMBED_PATH not in check.namelist():

@@ -22,12 +22,16 @@ os.makedirs(os.path.join(lib, 'Ann Author', 'Storm Book (1)'))
 book = os.path.join(lib, 'Ann Author', 'Storm Book (1)', 'Storm Book - Ann Author.epub')
 make_epub(book, 'The rain hammered down on the roof all night long. ' * 30)
 con = sqlite3.connect(os.path.join(lib, 'metadata.db'))
-con.executescript("""CREATE TABLE books(id INTEGER PRIMARY KEY, title, sort, path);
+con.executescript("""CREATE TABLE books(id INTEGER PRIMARY KEY, title, sort, path, last_modified);
+CREATE TABLE tags(id INTEGER PRIMARY KEY, name TEXT NOT NULL COLLATE NOCASE, UNIQUE(name));
+CREATE TABLE books_tags_link(id INTEGER PRIMARY KEY, book INTEGER NOT NULL, tag INTEGER NOT NULL, UNIQUE(book, tag));
+CREATE TRIGGER books_update_trg AFTER UPDATE ON books BEGIN
+  UPDATE books SET sort=title_sort(NEW.title) WHERE id=NEW.id AND OLD.title <> NEW.title; END;
 CREATE TABLE data(id INTEGER PRIMARY KEY, book, format, name);
 CREATE TABLE authors(id INTEGER PRIMARY KEY, name);
 CREATE TABLE books_authors_link(id INTEGER PRIMARY KEY, book, author);
-INSERT INTO books VALUES(1, 'Storm Book', 'Storm Book', 'Ann Author/Storm Book (1)');
-INSERT INTO books VALUES(2, 'Escape', 'Escape', '../../etc');
+INSERT INTO books VALUES(1, 'Storm Book', 'Storm Book', 'Ann Author/Storm Book (1)', '');
+INSERT INTO books VALUES(2, 'Escape', 'Escape', '../../etc', '');
 INSERT INTO data VALUES(1, 1, 'EPUB', 'Storm Book - Ann Author');
 INSERT INTO data VALUES(2, 2, 'EPUB', 'passwd');
 INSERT INTO authors VALUES(1, 'Ann Author');
@@ -103,6 +107,11 @@ assert app.im.embedded(book)['scenes'][0]['sound'] == 'rain/heavy'
 backup = os.path.join(data, 'backups', '1', os.path.basename(book))
 assert open(backup, 'rb').read() == original
 assert req('/api/library')[1][0]['coverage'] == 100
+con = sqlite3.connect(os.path.join(lib, 'metadata.db'))
+assert con.execute('SELECT title, sort FROM books WHERE id = 1').fetchone() == ('Storm Book [kambience]',) * 2
+assert con.execute('SELECT t.name FROM books_tags_link l JOIN tags t ON t.id = l.tag WHERE l.book = 1').fetchall() == [('kambience',)]
+con.close()
+assert app.title_sort('The Wise Man’s Fear') == 'Wise Man’s Fear, The'
 st, epub = req(f'/api/jobs/{j["id"]}/epub')
 assert st == 200 and epub[:2] == b'PK'
 with zipfile.ZipFile(book) as z:

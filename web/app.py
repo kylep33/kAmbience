@@ -7,7 +7,7 @@ OPDS or USB. Library books are updated in place after a backup to DATA/backups; 
 downloaded or dropped into the Calibre-Web-Automated ingest folder.
 Stdlib only, apart from the optional `anthropic` package for Claude.
 """
-import collections, json, os, queue, re, shutil, sqlite3, sys, threading, time, urllib.parse, uuid, zipfile
+import collections, datetime, json, os, queue, re, shutil, sqlite3, sys, threading, time, urllib.parse, uuid, zipfile
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -127,6 +127,28 @@ def library_books():
     return out
 
 
+def title_sort(title):
+    """Calibre's default: a leading article moves to the end."""
+    m = re.match(r'(A|An|The)\s+(.+)', title or '', re.S)
+    return f'{m.group(2)}, {m.group(1)}' if m else title
+
+
+def mark_calibre(book_id):
+    """Title suffix and tag in metadata.db too: Calibre-Web shows the database, not the EPUB."""
+    con = sqlite3.connect(os.path.join(LIBRARY, 'metadata.db'), timeout=30)
+    con.create_function('title_sort', 1, title_sort)  # Calibre's books_update_trg calls it
+    now = datetime.datetime.now(datetime.timezone.utc).isoformat(sep=' ')
+    try:
+        with con:
+            con.execute('UPDATE books SET title = title || ?, last_modified = ? WHERE id = ? AND substr(title, -?) <> ?',
+                        (im.TITLE_SUFFIX, now, book_id, len(im.TITLE_SUFFIX), im.TITLE_SUFFIX))
+            con.execute('INSERT OR IGNORE INTO tags(name) VALUES (?)', (im.MARK,))
+            con.execute('INSERT OR IGNORE INTO books_tags_link(book, tag) SELECT ?, id FROM tags WHERE name = ?',
+                        (book_id, im.MARK))
+    finally:
+        con.close()
+
+
 def library_path(rel, name):
     """Joins a path from Calibre's database, refusing anything that would leave the library."""
     root = os.path.realpath(LIBRARY)
@@ -234,6 +256,7 @@ def work(j):
             os.makedirs(os.path.dirname(backup), exist_ok=True)
             shutil.copy2(j['path'], backup)
         im.embed(j['path'], j['path'], data)
+        mark_calibre(j['book_id'])
         j['epub'] = j['path']
         j['saved'] = 'Saved into your Calibre library. The original is backed up on mattbot.'
     else:
