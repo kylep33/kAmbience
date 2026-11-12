@@ -41,11 +41,13 @@ A typical novel is a few hundred passages, sent in batches of about 16.
 
 ## 2. Install on the Kindle
 
-1. Install KinAMP (`kpm install kinamp`, or unzip its release to the root of the Kindle so it sits at `/mnt/us/KinAMP`).
-   Pair your headphones and check that KinAMP plays music on its own first.
-2. Copy `kambience.koplugin/` to `koreader/plugins/` on the Kindle.
-3. Copy the sound files to `/mnt/us/kambience/sounds/` on the Kindle, keeping the same layout as `sounds/` here.
-4. Put `mybook.epub` and `mybook.kambience.json` in the same folder.
+Type these in the Kindle search bar:
+
+1. `;kpm add-repo https://kylep33.github.io/kile-kpm-repo/manifest.json`
+2. `;kpm add-repo https://kindletweaks.github.io/Repo/manifest.json` (for KinAMP)
+3. `;kpm update`, then `;kpm install kinamp` and `;kpm install kambience` (pulls in the sounds)
+4. Pair your headphones in Settings → Wireless & Bluetooth, and check that KinAMP plays music on its own.
+5. Put the tagged book on the Kindle. The scenes travel inside the EPUB, so no extra file is needed.
 
 ## Reading
 
